@@ -17,17 +17,23 @@ summary.
 
 ```r
 act <- read.csv(unzip("activity.zip"))
+##format interval times
+hour <- floor(act$interval/100)
+minute <- act$interval - hour*100
+intc <- paste(hour, minute, sep=":")
+int <- as.POSIXct(intc, format="%R")
+act$interval <- int
 summary(act)
 ```
 
 ```
-##      steps                date          interval     
-##  Min.   :  0.00   2012-10-01:  288   Min.   :   0.0  
-##  1st Qu.:  0.00   2012-10-02:  288   1st Qu.: 588.8  
-##  Median :  0.00   2012-10-03:  288   Median :1177.5  
-##  Mean   : 37.38   2012-10-04:  288   Mean   :1177.5  
-##  3rd Qu.: 12.00   2012-10-05:  288   3rd Qu.:1766.2  
-##  Max.   :806.00   2012-10-06:  288   Max.   :2355.0  
+##      steps                date          interval                  
+##  Min.   :  0.00   2012-10-01:  288   Min.   :2014-11-12 00:00:00  
+##  1st Qu.:  0.00   2012-10-02:  288   1st Qu.:2014-11-12 05:58:45  
+##  Median :  0.00   2012-10-03:  288   Median :2014-11-12 11:57:30  
+##  Mean   : 37.38   2012-10-04:  288   Mean   :2014-11-12 11:57:30  
+##  3rd Qu.: 12.00   2012-10-05:  288   3rd Qu.:2014-11-12 17:56:15  
+##  Max.   :806.00   2012-10-06:  288   Max.   :2014-11-12 23:55:00  
 ##  NA's   :2304     (Other)   :15840
 ```
 
@@ -80,7 +86,7 @@ plot(spi$interval, spi$steps, type ="l", ylab = "Average Steps",
 spimax <- spi[spi$steps == max(spi$steps), 1]
 ```
 The 5 minute interval with the highest average number of steps is identified as: 
-835.
+2014-11-12 08:35:00.
 
 
 
@@ -124,13 +130,13 @@ summary(actidata)
 ```
 
 ```
-##      steps                date          interval     
-##  Min.   :  0.00   2012-10-01:  288   Min.   :   0.0  
-##  1st Qu.:  0.00   2012-10-02:  288   1st Qu.: 588.8  
-##  Median :  0.00   2012-10-03:  288   Median :1177.5  
-##  Mean   : 37.38   2012-10-04:  288   Mean   :1177.5  
-##  3rd Qu.: 27.00   2012-10-05:  288   3rd Qu.:1766.2  
-##  Max.   :806.00   2012-10-06:  288   Max.   :2355.0  
+##      steps                date          interval                  
+##  Min.   :  0.00   2012-10-01:  288   Min.   :2014-11-12 00:00:00  
+##  1st Qu.:  0.00   2012-10-02:  288   1st Qu.:2014-11-12 05:58:45  
+##  Median :  0.00   2012-10-03:  288   Median :2014-11-12 11:57:30  
+##  Mean   : 37.38   2012-10-04:  288   Mean   :2014-11-12 11:57:30  
+##  3rd Qu.: 27.00   2012-10-05:  288   3rd Qu.:2014-11-12 17:56:15  
+##  Max.   :806.00   2012-10-06:  288   Max.   :2014-11-12 23:55:00  
 ##                   (Other)   :15840
 ```
 
@@ -167,8 +173,8 @@ because I esentially added 8 daysof data with step counts equal to the mean.
 ## 5. Are there differences in activty patterns between weekdays and weekends?
 
 The activity pattern varries between weekdays and weekends; to see how much we 
-can look at a plot similar to the one developed in step 3 but seperate the 
-weekday from weekend values. The following code tags each observation as 
+can look at a plot similar to the one developed in step 3 but with the weekday 
+and weekend values seperated. The following code tags each observation as 
 ocurring on a weekday or weekend, aggregates the step observations on the 
 interval and daytype factor, and then plots each activity pattern. The plot 
 is constructed in lattice so the lattice package must be installed prior to 
@@ -186,6 +192,7 @@ wdvswe <- aggregate(steps~interval + daytype, actidata, FUN = mean)
 ## create plot in lattice
 library(lattice)
 xyplot(steps~interval|daytype, data=wdvswe, type="l", layout=(c(1,2)), 
+       scales = list(format = "%H:%M"),
        ylab="Average Steps", xlab="Five Minute Interval", 
        main="Average Steps by Interval: Weekday vs. Weekend")
 ```
