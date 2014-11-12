@@ -1,11 +1,11 @@
 ---
 title: "ReproduceableResearchProject1"
 author: "Erich Wolf"
-date: "Sunday, November 09, 2014"
+date: "Wednesday, November 12, 2014"
 output: html_document
 ---
 
-This is my Repoduceable Reserach course project #1 submission. 
+This is my Reproducible Research course project #1 submission. 
 
 
 ## 1. Loading and preprocessing the data
@@ -25,14 +25,14 @@ act$interval <- int
 summary(act)
 ```
 
-Note that the interval start times are given as military time in integers so 
-interval 835 converts to 8:35am and interval 1455 converts to 2:55pm.
-
+Note that the interval start times were converted from military time, the hours 
+and minutes are used. The date component of the interval is an artifact of when 
+it was created and is ignored in the analysis.
 
 
 ## 2. What is the mean number of steps taken per day?
 
-The mean number of steps taken each day can be caluclated by aggregating the 
+The mean number of steps taken each day can be calculated by aggregating the 
 sum of the steps variable on the date and then taking the mean of the resulting
 data frame steps variable. The following code calculates the mean and median 
 steps per day, and also generates a histogram of total steps per day.
@@ -126,19 +126,19 @@ After the NA values were replaced the mean steps taken per day are: `r spdmeani`
 After the NA values were replaced the median steps taken per day are: `r spdmediani`. 
 
 These values are almost exactly the same as the mean and median values with NA 
-values presented above. Given that the NA values arrise from entire missing days 
-of data and I used the intervalmean to replace the NA values we should not 
+values presented above. Given that the NA values arise from entire missing days 
+of data and I used the interval mean to replace the NA values we should not 
 expect to see a the mean change. Similarly the median is now equal to the mean 
-because I esentially added 8 daysof data with step counts equal to the mean.
+because I essentially added 8 days of data with step counts equal to the mean.
 
 
 
-## 5. Are there differences in activty patterns between weekdays and weekends?
+## 5. Are there differences in activity patterns between weekdays and weekends?
 
-The activity pattern varries between weekdays and weekends; to see how much we 
+The activity pattern varies between weekdays and weekends; to see how much we 
 can look at a plot similar to the one developed in step 3 but with the weekday 
-and weekend values seperated. The following code tags each observation as 
-ocurring on a weekday or weekend, aggregates the step observations on the 
+and weekend values separated. The following code tags each observation as 
+occurring on a weekday or weekend, aggregates the step observations on the 
 interval and daytype factor, and then plots each activity pattern. The plot 
 is constructed in lattice so the lattice package must be installed prior to 
 creating this plot.
